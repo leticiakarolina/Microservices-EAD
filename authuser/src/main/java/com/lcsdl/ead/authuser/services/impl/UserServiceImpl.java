@@ -2,7 +2,6 @@ package com.lcsdl.ead.authuser.services.impl;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
