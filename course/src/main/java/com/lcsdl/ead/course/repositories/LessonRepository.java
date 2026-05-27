@@ -1,4 +1,4 @@
-package com.lcsdl.ead.course.enums.repositories;
+package com.lcsdl.ead.course.repositories;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,5 +17,5 @@ public interface LessonRepository extends JpaRepository<Lesson, UUID> {
     @Query("DELETE FROM Lesson l WHERE l.module.moduleId = :moduleId")
     void deleteLessonsByModuleId(UUID moduleId);
 	
-	List<Lesson> findAllLessonByModuleId(UUID moduleId);
+	List<Lesson> findAllByModule_ModuleId(UUID moduleId);
 }

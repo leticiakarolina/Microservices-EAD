@@ -1,4 +1,4 @@
-package com.lcsdl.ead.course.enums.repositories;
+package com.lcsdl.ead.course.repositories;
 
 import java.util.List;
 import java.util.UUID;
@@ -11,6 +11,6 @@ import com.lcsdl.ead.course.models.Module;
 @Repository
 public interface ModuleRepository extends JpaRepository<Module, UUID> {
 	
-	List<Module> findAllModuleByCourseId(UUID courseId);
+	List<Module> findAllByCourse_CourseId(UUID courseId);
 
 }

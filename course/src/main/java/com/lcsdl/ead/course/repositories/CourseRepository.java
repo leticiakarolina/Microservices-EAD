@@ -1,4 +1,4 @@
-package com.lcsdl.ead.course.enums.repositories;
+package com.lcsdl.ead.course.repositories;
 
 import java.util.UUID;
 
@@ -10,4 +10,5 @@ import com.lcsdl.ead.course.models.Course;
 @Repository
 public interface CourseRepository extends JpaRepository<Course, UUID> {
 
+	boolean existsByName(String name);
 }

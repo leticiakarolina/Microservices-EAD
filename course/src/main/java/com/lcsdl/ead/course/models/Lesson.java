@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,6 +43,7 @@ public class Lesson implements Serializable {
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "module_id")
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private Module module;
 
 	public UUID getLessonId() {

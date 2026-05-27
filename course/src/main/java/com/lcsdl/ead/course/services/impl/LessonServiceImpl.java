@@ -5,8 +5,8 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.lcsdl.ead.course.enums.repositories.LessonRepository;
 import com.lcsdl.ead.course.models.Lesson;
+import com.lcsdl.ead.course.repositories.LessonRepository;
 import com.lcsdl.ead.course.services.LessonService;
 
 @Service
@@ -30,7 +30,7 @@ public class LessonServiceImpl implements LessonService {
 
 	@Override
 	public List<Lesson> findAllLessonByModuleId(UUID moduleId) {
-		return lessonRepository.findAllLessonByModuleId(moduleId);
+		return lessonRepository.findAllByModule_ModuleId(moduleId);
 	}
 	
 	

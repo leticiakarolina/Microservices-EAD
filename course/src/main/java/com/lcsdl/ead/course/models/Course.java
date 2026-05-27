@@ -60,22 +60,7 @@ public class Course implements Serializable {
 	
 	@OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
 	private Set<Module> modules;
-    
-	public Course(UUID courseId, String name, String description, LocalDateTime creationDate,
-			LocalDateTime lastUpdateDate, CourseStatus courseStatus, CourseLevel courseLevel, UUID userInstructor,
-			String imageUrl, Set<Module> modules) {
-		this.courseId = courseId;
-		this.name = name;
-		this.description = description;
-		this.creationDate = creationDate;
-		this.lastUpdateDate = lastUpdateDate;
-		this.courseStatus = courseStatus;
-		this.courseLevel = courseLevel;
-		this.userInstructor = userInstructor;
-		this.imageUrl = imageUrl;
-		this.modules = modules;
-	}
-
+	
 	public UUID getCourseId() {
 		return courseId;
 	}
