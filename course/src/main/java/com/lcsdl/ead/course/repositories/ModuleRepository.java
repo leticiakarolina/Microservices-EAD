@@ -1,6 +1,7 @@
 package com.lcsdl.ead.course.repositories;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,5 +13,7 @@ import com.lcsdl.ead.course.models.Module;
 public interface ModuleRepository extends JpaRepository<Module, UUID> {
 	
 	List<Module> findAllByCourse_CourseId(UUID courseId);
+
+	Optional<Module> findByModuleIdAndCourse_CourseId(UUID moduleId, UUID courseId);
 
 }

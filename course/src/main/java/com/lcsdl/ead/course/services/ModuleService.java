@@ -1,6 +1,7 @@
 package com.lcsdl.ead.course.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.lcsdl.ead.course.dtos.ModuleDTO;
@@ -11,7 +12,11 @@ public interface ModuleService {
 
 	void deleteModule(Module module);
 	
-	List<Module> findAllModulesByCourseId(UUID courseId);
+	List<Module> findAllModulesByCourse(UUID courseId);
 
 	Module saveModule(Course course, ModuleDTO moduleDto);
+
+	Optional<Module> findOneModuleByCourse(UUID courseId, UUID moduleId);
+
+	Module updateModule(ModuleDTO moduleDto, Module module);
 }

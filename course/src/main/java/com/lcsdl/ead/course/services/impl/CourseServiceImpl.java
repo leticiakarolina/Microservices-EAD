@@ -13,11 +13,9 @@ import org.springframework.stereotype.Service;
 
 import com.lcsdl.ead.course.dtos.CourseDTO;
 import com.lcsdl.ead.course.models.Course;
-import com.lcsdl.ead.course.models.Lesson;
 import com.lcsdl.ead.course.models.Module;
 import com.lcsdl.ead.course.repositories.CourseRepository;
 import com.lcsdl.ead.course.services.CourseService;
-import com.lcsdl.ead.course.services.LessonService;
 import com.lcsdl.ead.course.services.ModuleService;
 
 @Service
@@ -25,25 +23,18 @@ public class CourseServiceImpl implements CourseService {
 
 	private final CourseRepository courseRepository;
 	private final ModuleService moduleService;
-	private final LessonService lessonService;
 
-	public CourseServiceImpl(CourseRepository courseRepository, ModuleService moduleService, LessonService lessonService) {
+	public CourseServiceImpl(CourseRepository courseRepository, ModuleService moduleService) {
 		this.courseRepository = courseRepository;
 		this.moduleService = moduleService;
-		this.lessonService = lessonService;
 	}
 
 	@Override
 	public void deleteCourse(Course course) {
-		List<Module> modules = moduleService.findAllModulesByCourseId(course.getCourseId());
+		List<Module> modules = moduleService.findAllModulesByCourse(course.getCourseId());
 		
 		if(!modules.isEmpty()) {
 			for(Module module : modules) {
-				List<Lesson> lessons = lessonService.findAllLessonByModuleId(module.getModuleId());
-				
-				if(!lessons.isEmpty()) {
-					lessonService.deleteLessons(lessons);
-				}
 				moduleService.deleteModule(module);
 			}
 		}
