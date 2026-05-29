@@ -19,4 +19,6 @@ public interface ModuleService {
 	Optional<Module> findOneModuleByCourse(UUID courseId, UUID moduleId);
 
 	Module updateModule(ModuleDTO moduleDto, Module module);
+
+	Optional<Module> getModuleById(UUID moduleId);
 }
