@@ -14,23 +14,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lcsdl.ead.course.dtos.ModuleDTO;
-import com.lcsdl.ead.course.services.CourseService;
 import com.lcsdl.ead.course.services.ModuleService;
 
 @RestController
 public class ModuleController {
 
 	private final ModuleService moduleService;
-	private final CourseService courseService;
 
-	public ModuleController(ModuleService moduleService, CourseService courseService) {
+	public ModuleController(ModuleService moduleService) {
 		this.moduleService = moduleService;
-		this.courseService = courseService;
 	}
 	
 	@PostMapping("/courses/{courseId}/modules")
 	public ResponseEntity<Object> saveModule(@PathVariable UUID courseId, @RequestBody @Validated ModuleDTO moduleDto){
-		return ResponseEntity.status(HttpStatus.CREATED).body(moduleService.saveModule(courseService.getCourseById(courseId).get(), moduleDto));
+		return ResponseEntity.status(HttpStatus.CREATED).body(moduleService.saveModule(courseId, moduleDto));
 	}
 	
 	@GetMapping("/courses/{courseId}/modules")
@@ -40,7 +37,8 @@ public class ModuleController {
 	
 	@GetMapping("/courses/{courseId}/modules/{moduleId}")
 	public ResponseEntity<Object> getOneModule(@PathVariable UUID courseId, @PathVariable UUID moduleId){
-		return ResponseEntity.status(HttpStatus.OK).body(moduleService.findOneModuleByCourse(courseId, moduleId));
+		return ResponseEntity.status(HttpStatus.OK).body(
+			moduleService.findOneModuleByCourse(courseId, moduleId));
 	}
 	
 	@DeleteMapping("/courses/{courseId}/modules/{moduleId}")
@@ -51,6 +49,7 @@ public class ModuleController {
 	
 	@PutMapping("/courses/{courseId}/modules/{moduleId}")
 	public ResponseEntity<Object> updateModule(@PathVariable UUID courseId, @PathVariable UUID moduleId, @RequestBody @Validated ModuleDTO moduleDto){
-		return ResponseEntity.status(HttpStatus.OK).body(moduleService.updateModule(moduleDto, moduleService.findOneModuleByCourse(courseId, moduleId).get()));
+		return ResponseEntity.status(HttpStatus.OK).body(
+				moduleService.updateModule(courseId, moduleId, moduleDto));
 	}
 }

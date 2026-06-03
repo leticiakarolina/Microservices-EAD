@@ -1,6 +1,7 @@
 package com.lcsdl.ead.course.repositories;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +19,6 @@ public interface LessonRepository extends JpaRepository<Lesson, UUID> {
     void deleteLessonsByModuleId(UUID moduleId);
 	
 	List<Lesson> findAllByModule_ModuleId(UUID moduleId);
+	
+	Optional<Lesson> findByLessonIdAndModule_ModuleId(UUID lessonId, UUID moduleId);
 }

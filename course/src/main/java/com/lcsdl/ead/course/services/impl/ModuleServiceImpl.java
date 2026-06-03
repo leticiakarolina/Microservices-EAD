@@ -14,6 +14,7 @@ import com.lcsdl.ead.course.dtos.ModuleDTO;
 import com.lcsdl.ead.course.models.Course;
 import com.lcsdl.ead.course.models.Lesson;
 import com.lcsdl.ead.course.models.Module;
+import com.lcsdl.ead.course.repositories.CourseRepository;
 import com.lcsdl.ead.course.repositories.ModuleRepository;
 import com.lcsdl.ead.course.services.LessonService;
 import com.lcsdl.ead.course.services.ModuleService;
@@ -23,10 +24,12 @@ public class ModuleServiceImpl implements ModuleService {
 
 	private final ModuleRepository moduleRepository;
 	private final LessonService lessonService;
+	private final CourseRepository courseRepository;
 
-	public ModuleServiceImpl(ModuleRepository moduleRepository, LessonService lessonService) {
+	public ModuleServiceImpl(ModuleRepository moduleRepository, LessonService lessonService, CourseRepository courseRepository) {
 		this.moduleRepository = moduleRepository;
 		this.lessonService = lessonService;
+		this.courseRepository = courseRepository;
 	}
 
 	@Override
@@ -47,7 +50,8 @@ public class ModuleServiceImpl implements ModuleService {
 
 	@Override
 	@Transactional
-	public Module saveModule(Course course, ModuleDTO moduleDto) {
+	public Module saveModule(UUID courseId, ModuleDTO moduleDto) {
+		Course course = findCourseById(courseId).get();
 		Module module = createModule(moduleDto, course);
 		return module;
 	}
@@ -63,6 +67,7 @@ public class ModuleServiceImpl implements ModuleService {
 
 	@Override
 	public Optional<Module> findOneModuleByCourse(UUID courseId, UUID moduleId) {
+		findCourseById(courseId);
 		Optional<Module> module = moduleRepository.findByModuleIdAndCourse_CourseId(moduleId, courseId);
 		
 		if(module.isEmpty()) {
@@ -73,7 +78,8 @@ public class ModuleServiceImpl implements ModuleService {
 	}
 
 	@Override
-	public Module updateModule(ModuleDTO moduleDto, Module module) {
+	public Module updateModule(UUID courseId, UUID moduleId, ModuleDTO moduleDto) {
+		Module module = findOneModuleByCourse(courseId, moduleId).get();
 		BeanUtils.copyProperties(moduleDto, module);
 		return moduleRepository.save(module);
 	}
@@ -87,6 +93,16 @@ public class ModuleServiceImpl implements ModuleService {
 		}
 		
 		return module;
+	}
+	
+	private Optional<Course> findCourseById(UUID courseId){
+		Optional<Course> course = courseRepository.findById(courseId);
+		
+		if(course.isEmpty()) {
+			
+		}
+		
+		return course;
 	}
 
 }

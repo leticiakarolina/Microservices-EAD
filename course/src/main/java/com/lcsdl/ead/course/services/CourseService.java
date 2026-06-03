@@ -11,7 +11,7 @@ import com.lcsdl.ead.course.models.Course;
 
 public interface CourseService {
 
-	void deleteCourse(Course course);
+	void deleteCourse(UUID courseId);
 	
 	Course saveCourse(CourseDTO courseDto);
 
@@ -21,5 +21,5 @@ public interface CourseService {
 
 	Optional<Course> getCourseById(UUID courseId);
 
-	Course updateCourse(CourseDTO courseDto, Course course);
+	Course updateCourse(CourseDTO courseDto, UUID courseId);
 }

@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.lcsdl.ead.course.dtos.ModuleDTO;
-import com.lcsdl.ead.course.models.Course;
 import com.lcsdl.ead.course.models.Module;
 
 public interface ModuleService {
@@ -14,11 +13,11 @@ public interface ModuleService {
 	
 	List<Module> findAllModulesByCourse(UUID courseId);
 
-	Module saveModule(Course course, ModuleDTO moduleDto);
+	Module saveModule(UUID courseId, ModuleDTO moduleDto);
 
 	Optional<Module> findOneModuleByCourse(UUID courseId, UUID moduleId);
 
-	Module updateModule(ModuleDTO moduleDto, Module module);
+	Module updateModule(UUID courseId, UUID moduleId, ModuleDTO moduleDto);
 
 	Optional<Module> getModuleById(UUID moduleId);
 }

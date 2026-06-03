@@ -30,7 +30,8 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public void deleteCourse(Course course) {
+	public void deleteCourse(UUID courseId) {
+		Course course = getCourseById(courseId).get();
 		List<Module> modules = moduleService.findAllModulesByCourse(course.getCourseId());
 		
 		if(!modules.isEmpty()) {
@@ -73,7 +74,9 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public Course updateCourse(CourseDTO courseDto, Course course) {
+	public Course updateCourse(CourseDTO courseDto, UUID courseId) {
+		Course course = getCourseById(courseId).get();
+		
 		BeanUtils.copyProperties(courseDto, course);
 		course.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
 		

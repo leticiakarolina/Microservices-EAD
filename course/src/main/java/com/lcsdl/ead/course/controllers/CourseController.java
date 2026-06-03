@@ -49,12 +49,12 @@ public class CourseController {
 	
 	@DeleteMapping("/{courseId}")
 	public ResponseEntity<Object> deleteCourse(@PathVariable UUID courseId){
-		courseService.deleteCourse(courseService.getCourseById(courseId).get());
+		courseService.deleteCourse(courseId);
 		return ResponseEntity.status(HttpStatus.OK).body("Course deleted with success!");
 	}
 	
 	@PutMapping("/{courseId}")
 	public ResponseEntity<Object> updateCourse(@PathVariable UUID courseId, @RequestBody @Validated CourseDTO courseDto){
-		return ResponseEntity.status(HttpStatus.OK).body(courseService.updateCourse(courseDto, courseService.getCourseById(courseId).get()));
+		return ResponseEntity.status(HttpStatus.OK).body(courseService.updateCourse(courseDto, courseId));
 	}
 }
