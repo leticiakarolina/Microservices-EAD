@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.lcsdl.ead.course.dtos.LessonDTO;
+import com.lcsdl.ead.course.exceptions.NotFoundException;
 import com.lcsdl.ead.course.models.Lesson;
 import com.lcsdl.ead.course.models.Module;
 import com.lcsdl.ead.course.repositories.LessonRepository;
@@ -63,7 +64,7 @@ public class LessonServiceImpl implements LessonService {
 		Optional<Lesson> lesson = lessonRepository.findByLessonIdAndModule_ModuleId(lessonId, module.getModuleId());
 		
 		if(lesson.isEmpty()) {
-			//retornar erro
+			throw new NotFoundException("The lesson provided with the id " + lessonId + " was not found.");
 		}
 		
 		return lesson;
@@ -74,7 +75,7 @@ public class LessonServiceImpl implements LessonService {
 		Optional<Module> module = moduleRepository.findById(moduleId);
 		
 		if(module.isEmpty()){
-			//
+			throw new NotFoundException("The module provided with the id " + moduleId + " was not found.");
 		}
 		
 		return module;

@@ -9,14 +9,18 @@ import java.util.UUID;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.lcsdl.ead.course.dtos.CourseDTO;
+import com.lcsdl.ead.course.exceptions.NotFoundException;
 import com.lcsdl.ead.course.models.Course;
 import com.lcsdl.ead.course.models.Module;
 import com.lcsdl.ead.course.repositories.CourseRepository;
 import com.lcsdl.ead.course.services.CourseService;
 import com.lcsdl.ead.course.services.ModuleService;
+import com.lcsdl.ead.course.specifications.CourseSpecifications;
+import com.lcsdl.ead.course.specifications.filters.CourseSearchFilter;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -58,8 +62,13 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public Page<Course> getCourses(Pageable pageable) {
-		return courseRepository.findAll(pageable);
+	public Page<Course> getCourses(Pageable pageable, CourseSearchFilter courseFilter) {
+		Specification<Course> spec = Specification.where(CourseSpecifications.courseStatus(courseFilter.courseStatus()))
+				.and(CourseSpecifications.courseLevel(courseFilter.courseLevel()))
+				.and(CourseSpecifications.likeName(courseFilter.name()));
+				
+		
+		return courseRepository.findAll(spec, pageable);
 	}
 
 	@Override
@@ -67,7 +76,7 @@ public class CourseServiceImpl implements CourseService {
 		Optional<Course> course = courseRepository.findById(courseId);
 		
 		if(course.isEmpty()) {
-			//throw new NotFoundException("Course with id: " + courseId + " was not found.");
+			throw new NotFoundException("The course provided with the id " + courseId + " was not found.");
 		}
 		
 		return course;

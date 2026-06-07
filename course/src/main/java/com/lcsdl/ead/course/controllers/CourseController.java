@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lcsdl.ead.course.dtos.CourseDTO;
 import com.lcsdl.ead.course.services.CourseService;
+import com.lcsdl.ead.course.specifications.filters.CourseSearchFilter;
 
 @RestController
 @RequestMapping("/courses")
@@ -38,8 +39,8 @@ public class CourseController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<Object> getCourses(Pageable pageable){
-		return ResponseEntity.status(HttpStatus.OK).body(courseService.getCourses(pageable));
+	public ResponseEntity<Object> getCourses(Pageable pageable, CourseSearchFilter courseFilter){
+		return ResponseEntity.status(HttpStatus.OK).body(courseService.getCourses(pageable, courseFilter));
 	}
 	
 	@GetMapping("/{courseId}")

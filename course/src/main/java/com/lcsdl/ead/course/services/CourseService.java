@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.lcsdl.ead.course.dtos.CourseDTO;
 import com.lcsdl.ead.course.models.Course;
+import com.lcsdl.ead.course.specifications.filters.CourseSearchFilter;
 
 public interface CourseService {
 
@@ -17,7 +18,7 @@ public interface CourseService {
 
 	boolean existsByName(String name);
 
-	Page<Course> getCourses(Pageable pageable);
+	Page<Course> getCourses(Pageable pageable, CourseSearchFilter courseFilter);
 
 	Optional<Course> getCourseById(UUID courseId);
 

@@ -3,10 +3,10 @@ package com.lcsdl.ead.course.dtos;
 import jakarta.validation.constraints.NotBlank;
 
 public record ModuleDTO(
-	@NotBlank
+	@NotBlank(message = "A title is required")
 	String title,
 	
-	@NotBlank
+	@NotBlank(message = "A description is required")
 	String description) {
 
 }

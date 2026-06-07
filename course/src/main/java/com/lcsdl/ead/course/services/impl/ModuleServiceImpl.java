@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lcsdl.ead.course.dtos.ModuleDTO;
+import com.lcsdl.ead.course.exceptions.NotFoundException;
 import com.lcsdl.ead.course.models.Course;
 import com.lcsdl.ead.course.models.Lesson;
 import com.lcsdl.ead.course.models.Module;
@@ -45,6 +46,7 @@ public class ModuleServiceImpl implements ModuleService {
 
 	@Override
 	public List<Module> findAllModulesByCourse(UUID courseId) {
+		findCourseById(courseId);
 		return moduleRepository.findAllByCourse_CourseId(courseId);
 	}
 
@@ -71,7 +73,7 @@ public class ModuleServiceImpl implements ModuleService {
 		Optional<Module> module = moduleRepository.findByModuleIdAndCourse_CourseId(moduleId, courseId);
 		
 		if(module.isEmpty()) {
-			//
+			throw new NotFoundException("The module provided with the id " + moduleId + " was not found.");
 		}
 		
 		return module;
@@ -83,23 +85,12 @@ public class ModuleServiceImpl implements ModuleService {
 		BeanUtils.copyProperties(moduleDto, module);
 		return moduleRepository.save(module);
 	}
-
-	@Override
-	public Optional<Module> getModuleById(UUID moduleId) {
-		Optional<Module> module = moduleRepository.findById(moduleId);
-		
-		if(module.isEmpty()){
-			//
-		}
-		
-		return module;
-	}
 	
 	private Optional<Course> findCourseById(UUID courseId){
 		Optional<Course> course = courseRepository.findById(courseId);
 		
 		if(course.isEmpty()) {
-			
+			throw new NotFoundException("The course provided with the id " + courseId + " was not found.");
 		}
 		
 		return course;

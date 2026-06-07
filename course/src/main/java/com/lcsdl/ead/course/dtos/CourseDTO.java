@@ -9,19 +9,19 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record CourseDTO(
-	@NotBlank
+	@NotBlank(message = "A name is required")
 	String name,
 	
-	@NotBlank
+	@NotBlank(message = "A description is required")
 	String description,
 	
-	@NotNull
+	@NotNull(message = "The course status is required")
 	CourseStatus courseStatus,
 	
-	@NotNull
+	@NotNull(message = "The course level is required")
 	CourseLevel courseLevel,
 	
-	@NotNull
+	@NotNull(message = "The instructor is required")
 	UUID userInstructor,
 	String imageUrl) {
 
