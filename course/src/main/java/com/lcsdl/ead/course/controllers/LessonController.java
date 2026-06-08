@@ -2,6 +2,7 @@ package com.lcsdl.ead.course.controllers;
 
 import java.util.UUID;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lcsdl.ead.course.dtos.LessonDTO;
 import com.lcsdl.ead.course.services.LessonService;
+import com.lcsdl.ead.course.specifications.filters.LessonSearchFilter;
 
 @RestController
 public class LessonController {
@@ -31,8 +33,8 @@ public class LessonController {
 	}
 	
 	@GetMapping("/modules/{moduleId}/lessons")
-	public ResponseEntity<Object> getLessonsByModule(@PathVariable UUID moduleId){
-		return ResponseEntity.status(HttpStatus.OK).body(lessonService.findAllLessonByModuleId(moduleId));
+	public ResponseEntity<Object> getLessonsByModule(Pageable pageable, LessonSearchFilter lessonFilter, @PathVariable UUID moduleId){
+		return ResponseEntity.status(HttpStatus.OK).body(lessonService.findAllLessonByModuleId(pageable, lessonFilter, moduleId));
 	}
 	
 	@GetMapping("/modules/{moduleId}/lessons/{lessonId}")

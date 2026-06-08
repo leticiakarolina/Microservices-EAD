@@ -7,6 +7,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.lcsdl.ead.course.dtos.LessonDTO;
@@ -16,6 +19,8 @@ import com.lcsdl.ead.course.models.Module;
 import com.lcsdl.ead.course.repositories.LessonRepository;
 import com.lcsdl.ead.course.repositories.ModuleRepository;
 import com.lcsdl.ead.course.services.LessonService;
+import com.lcsdl.ead.course.specifications.LessonSpecifications;
+import com.lcsdl.ead.course.specifications.filters.LessonSearchFilter;
 
 @Service
 public class LessonServiceImpl implements LessonService {
@@ -40,8 +45,16 @@ public class LessonServiceImpl implements LessonService {
 	}
 
 	@Override
-	public List<Lesson> findAllLessonByModuleId(UUID moduleId) {
+	public Page<Lesson> findAllLessonByModuleId(Pageable pageable, LessonSearchFilter lessonFilter, UUID moduleId) {
 		getModuleById(moduleId);
+		Specification<Lesson> spec = Specification.where(LessonSpecifications.moduleId(moduleId))
+				.and(LessonSpecifications.likeName(lessonFilter.title()));
+		
+		return lessonRepository.findAll(spec, pageable);
+	}
+
+	@Override
+	public List<Lesson> findAllLessonByModuleId(UUID moduleId) {
 		return lessonRepository.findAllByModule_ModuleId(moduleId);
 	}
 
