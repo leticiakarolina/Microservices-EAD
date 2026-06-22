@@ -23,6 +23,7 @@ public record CourseDTO(
 	
 	@NotNull(message = "The instructor is required")
 	UUID userInstructor,
+	
 	String imageUrl) {
 
 }

@@ -20,3 +20,6 @@ spring:
        jdbc:
         lob:
           non-contextual-creation: true
+  
+microservices:
+  auth-user: http://localhost:8087/ead-authuser/
