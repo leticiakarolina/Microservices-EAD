@@ -1,4 +1,4 @@
-package com.lcsdl.ead.enrollment.user.client;
+package com.lcsdl.ead.enrollment.client;
 
 import java.util.UUID;
 
@@ -7,31 +7,31 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
-import com.lcsdl.ead.enrollment.dtos.UserDTO;
-import com.lcsdl.ead.enrollment.services.UserGateway;
+import com.lcsdl.ead.enrollment.dtos.CourseDTO;
+import com.lcsdl.ead.enrollment.gateways.CourseGateway;
 
 @Component
-public class UserClient implements UserGateway {
+public class CourseClient implements CourseGateway {
 	
 	private final RestClient restClient;
 	
-	public UserClient(RestClient.Builder restClientBuilder, @Value("${microservices.auth-user}") String authUserUrl) {
+	public CourseClient(RestClient.Builder restClientBuilder, @Value("${microservices.course}") String courseUrl) {
 		this.restClient = restClientBuilder
-                .baseUrl(authUserUrl)
+                .baseUrl(courseUrl)
                 .build();
 	}
 
 	@Override
-	public UserDTO findUserById(UUID userId) {
+	public CourseDTO findCourseById(UUID courseId) {
 		return restClient.get()
-				.uri("/users/{id}", userId)
+				.uri("courses/{courseId}", courseId)
 				.retrieve()
 				.onStatus(HttpStatusCode::is4xxClientError, (request, response) -> {
                     if (response.getStatusCode().value() == 404) {
-                        throw new RuntimeException("User not found"); 
+                        throw new RuntimeException("Course not found"); 
                     }
                 })
-                .body(UserDTO.class);
+                .body(CourseDTO.class);
 	}
 
 }

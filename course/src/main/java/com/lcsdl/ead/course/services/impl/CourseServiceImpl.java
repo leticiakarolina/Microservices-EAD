@@ -63,11 +63,9 @@ public class CourseServiceImpl implements CourseService {
 
 	@Override
 	public Page<Course> getCourses(Pageable pageable, CourseSearchFilter courseFilter) {
-		Specification<Course> spec = Specification.where(CourseSpecifications.courseStatus(courseFilter.courseStatus()))
-				.and(CourseSpecifications.courseLevel(courseFilter.courseLevel()))
+		Specification<Course> spec = Specification.where(CourseSpecifications.courseLevel(courseFilter.courseLevel()))
 				.and(CourseSpecifications.likeName(courseFilter.name()));
-				
-		
+			
 		return courseRepository.findAll(spec, pageable);
 	}
 

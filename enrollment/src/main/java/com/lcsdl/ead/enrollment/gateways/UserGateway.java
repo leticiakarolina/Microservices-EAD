@@ -1,4 +1,4 @@
-package com.lcsdl.ead.enrollment.services;
+package com.lcsdl.ead.enrollment.gateways;
 
 import java.util.UUID;
 

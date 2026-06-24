@@ -4,7 +4,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
 import com.lcsdl.ead.course.enums.CourseLevel;
-import com.lcsdl.ead.course.enums.CourseStatus;
 import com.lcsdl.ead.course.models.Course;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -12,11 +11,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 public class CourseSpecifications {
 
 	private CriteriaBuilder criteriaBuilder;
-	
-	public static Specification<Course> courseStatus(CourseStatus courseStatus){
-        return (root, query, builder) -> courseStatus == null ? null : builder.equal(root.get("courseStatus"), courseStatus);
-	}
-	
+
 	public static Specification<Course> courseLevel(CourseLevel courseLevel){
         return (root, query, builder) -> courseLevel == null ? null : builder.equal(root.get("courseLevel"), courseLevel);
 	}

@@ -5,9 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lcsdl.ead.course.enums.CourseLevel;
-import com.lcsdl.ead.course.enums.CourseStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,10 +39,6 @@ public class Course implements Serializable {
 	
 	@Column(nullable = false)
     private LocalDateTime lastUpdateDate;
-	
-	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-    private CourseStatus courseStatus;
 	
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -97,14 +91,6 @@ public class Course implements Serializable {
 
 	public void setLastUpdateDate(LocalDateTime lastUpdateDate) {
 		this.lastUpdateDate = lastUpdateDate;
-	}
-
-	public CourseStatus getCourseStatus() {
-		return courseStatus;
-	}
-
-	public void setCourseStatus(CourseStatus courseStatus) {
-		this.courseStatus = courseStatus;
 	}
 
 	public CourseLevel getCourseLevel() {
