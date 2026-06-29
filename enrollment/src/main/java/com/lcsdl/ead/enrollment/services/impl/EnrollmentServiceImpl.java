@@ -2,6 +2,8 @@ package com.lcsdl.ead.enrollment.services.impl;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,6 +63,13 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 		return createEnrollmentReadDTO(enrollRead);
 	}
 	
+	@Override
+	public List<EnrollmentReadDTO> getCoursesByUserId(UUID userId) {
+		List<EnrollmentQuery> enrollments = enrollQueryRepository.findAllByUserId(userId);
+		
+		return enrollments.stream().map(this::createEnrollmentReadDTO).toList();
+	}
+
 	private Enrollment createEnrollmentEntity(UserDTO user, CourseDTO course) {
 		Enrollment enrollment = new Enrollment();
 		enrollment.setCourseId(course.courseId());
