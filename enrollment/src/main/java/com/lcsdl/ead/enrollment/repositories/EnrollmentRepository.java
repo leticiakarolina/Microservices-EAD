@@ -10,4 +10,5 @@ import com.lcsdl.ead.enrollment.models.Enrollment;
 @Repository
 public interface EnrollmentRepository extends JpaRepository<Enrollment, UUID>{
 
+	boolean existsByUserIdAndCourseId(UUID userId, UUID courseId);
 }

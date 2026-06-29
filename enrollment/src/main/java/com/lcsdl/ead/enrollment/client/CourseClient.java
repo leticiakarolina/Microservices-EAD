@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 import com.lcsdl.ead.enrollment.dtos.CourseDTO;
+import com.lcsdl.ead.enrollment.exception.NotFoundException;
 import com.lcsdl.ead.enrollment.gateways.CourseGateway;
 
 @Component
@@ -28,7 +29,7 @@ public class CourseClient implements CourseGateway {
 				.retrieve()
 				.onStatus(HttpStatusCode::is4xxClientError, (request, response) -> {
                     if (response.getStatusCode().value() == 404) {
-                        throw new RuntimeException("Course not found"); 
+                    	throw new NotFoundException("User with id " + courseId + " was not found");
                     }
                 })
                 .body(CourseDTO.class);

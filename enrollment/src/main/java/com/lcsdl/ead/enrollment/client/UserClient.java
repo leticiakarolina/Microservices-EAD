@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 import com.lcsdl.ead.enrollment.dtos.UserDTO;
+import com.lcsdl.ead.enrollment.exception.NotFoundException;
 import com.lcsdl.ead.enrollment.gateways.UserGateway;
 
 @Component
@@ -28,7 +29,7 @@ public class UserClient implements UserGateway {
 				.retrieve()
 				.onStatus(HttpStatusCode::is4xxClientError, (request, response) -> {
                     if (response.getStatusCode().value() == 404) {
-                        throw new RuntimeException("User not found"); 
+                        throw new NotFoundException("User with id " + userId + " was not found"); 
                     }
                 })
                 .body(UserDTO.class);

@@ -12,6 +12,7 @@ import com.lcsdl.ead.enrollment.dtos.EnrollmentReadDTO;
 import com.lcsdl.ead.enrollment.dtos.UserDTO;
 import com.lcsdl.ead.enrollment.enums.EnrollmentStatus;
 import com.lcsdl.ead.enrollment.enums.UserStatus;
+import com.lcsdl.ead.enrollment.exception.BusinessRuleException;
 import com.lcsdl.ead.enrollment.gateways.CourseGateway;
 import com.lcsdl.ead.enrollment.gateways.UserGateway;
 import com.lcsdl.ead.enrollment.models.Enrollment;
@@ -42,10 +43,14 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 		UserDTO user = userGateway.findUserById(enrollmentDto.userId());
 		
 		if(user.status() == UserStatus.BLOCKED) {
-			throw new RuntimeException("This user is not allowed to enroll this course");
+			throw new BusinessRuleException("This user is not allowed to enroll in this course.");
 		}
 		
 		CourseDTO course = courseGateway.findCourseById(enrollmentDto.courseId());
+
+		if(enrollmentRepository.existsByUserIdAndCourseId(user.userId(), course.courseId())) {
+			throw new BusinessRuleException("This enrollment already exists!");
+		}
 		
 		Enrollment enrollmentEntity = createEnrollmentEntity(user, course);
 		Enrollment enrollment = enrollmentRepository.save(enrollmentEntity);
