@@ -2,7 +2,7 @@ package com.lcsdl.ead.enrollment.dtos;
 
 import java.util.UUID;
 
-public record EnrollmentDTO(
+public record EnrollmentRequestDTO(
 	UUID courseId,
 	UUID userId) {
 

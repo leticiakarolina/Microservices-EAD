@@ -3,13 +3,18 @@ package com.lcsdl.ead.enrollment.services;
 import java.util.List;
 import java.util.UUID;
 
-import com.lcsdl.ead.enrollment.dtos.EnrollmentDTO;
-import com.lcsdl.ead.enrollment.dtos.EnrollmentReadDTO;
+import org.jspecify.annotations.Nullable;
+
+import com.lcsdl.ead.enrollment.dtos.EnrollmentRequestDTO;
+import com.lcsdl.ead.enrollment.dtos.EnrollmentResponseDTO;
+import com.lcsdl.ead.enrollment.dtos.StudentDTO;
 
 public interface EnrollmentService {
 
-	EnrollmentReadDTO createEnrollment(EnrollmentDTO enrollmentDto);
+	EnrollmentResponseDTO createEnrollment(EnrollmentRequestDTO enrollmentDto);
 
-	List<EnrollmentReadDTO> getCoursesByUserId(UUID userId);
+	List<EnrollmentResponseDTO> getCoursesByStudentId(UUID userId);
+
+	List<StudentDTO> getStudentsByCourseId(UUID courseId);
 
 }

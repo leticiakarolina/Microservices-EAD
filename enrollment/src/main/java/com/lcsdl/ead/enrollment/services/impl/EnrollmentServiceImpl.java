@@ -9,8 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lcsdl.ead.enrollment.dtos.CourseDTO;
-import com.lcsdl.ead.enrollment.dtos.EnrollmentDTO;
-import com.lcsdl.ead.enrollment.dtos.EnrollmentReadDTO;
+import com.lcsdl.ead.enrollment.dtos.EnrollmentRequestDTO;
+import com.lcsdl.ead.enrollment.dtos.EnrollmentResponseDTO;
+import com.lcsdl.ead.enrollment.dtos.StudentDTO;
 import com.lcsdl.ead.enrollment.dtos.UserDTO;
 import com.lcsdl.ead.enrollment.enums.EnrollmentStatus;
 import com.lcsdl.ead.enrollment.enums.UserStatus;
@@ -41,7 +42,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
 	@Override
 	@Transactional
-	public EnrollmentReadDTO createEnrollment(EnrollmentDTO enrollmentDto) {
+	public EnrollmentResponseDTO createEnrollment(EnrollmentRequestDTO enrollmentDto) {
 		UserDTO user = userGateway.findUserById(enrollmentDto.userId());
 		
 		if(user.status() == UserStatus.BLOCKED) {
@@ -64,10 +65,17 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 	}
 	
 	@Override
-	public List<EnrollmentReadDTO> getCoursesByUserId(UUID userId) {
+	public List<EnrollmentResponseDTO> getCoursesByStudentId(UUID userId) {
 		List<EnrollmentQuery> enrollments = enrollQueryRepository.findAllByUserId(userId);
 		
 		return enrollments.stream().map(this::createEnrollmentReadDTO).toList();
+	}
+
+	@Override
+	public List<StudentDTO> getStudentsByCourseId(UUID courseId) {
+		List<EnrollmentQuery> enrollments = enrollQueryRepository.findAllByCourseId(courseId);
+		
+		return enrollments.stream().map(this::createStudentDto).toList();
 	}
 
 	private Enrollment createEnrollmentEntity(UserDTO user, CourseDTO course) {
@@ -93,8 +101,8 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 		return enrollRead;
 	}
 	
-	private EnrollmentReadDTO createEnrollmentReadDTO(EnrollmentQuery enrollment) {
-		EnrollmentReadDTO enrollDTO = new EnrollmentReadDTO(
+	private EnrollmentResponseDTO createEnrollmentReadDTO(EnrollmentQuery enrollment) {
+		EnrollmentResponseDTO enrollDTO = new EnrollmentResponseDTO(
 			enrollment.getCourseName(), 
 			enrollment.getUserFullName(), 
 			enrollment.getEnrolledAt(), 
@@ -104,4 +112,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 		return enrollDTO;
 	}
 
+	private StudentDTO createStudentDto(EnrollmentQuery enrollment) {
+		StudentDTO student = new StudentDTO(enrollment.getUserFullName());
+		
+		return student;
+	}
 }

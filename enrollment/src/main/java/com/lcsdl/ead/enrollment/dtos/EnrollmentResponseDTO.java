@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import com.lcsdl.ead.enrollment.enums.EnrollmentStatus;
 
-public record EnrollmentReadDTO(
+public record EnrollmentResponseDTO(
 	String courseName,
 	String userName,
 	LocalDateTime enrolledAt,

@@ -12,5 +12,6 @@ import com.lcsdl.ead.enrollment.models.EnrollmentQuery;
 public interface EnrollmentQueryRepository extends JpaRepository<EnrollmentQuery, UUID> {
 	
 	List<EnrollmentQuery> findAllByUserId(UUID userId);
-
+	
+	List<EnrollmentQuery> findAllByCourseId(UUID courseId);
 }
